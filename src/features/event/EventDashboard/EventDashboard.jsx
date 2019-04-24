@@ -10,45 +10,45 @@ const eventsDashboard = [
       date: '2019-03-27T11:00:00+00:00',
       category: 'culture',
       description:
-         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
+         'A software engineer develops various applications that enable users to accomplish tasks on their personal computers and electronic devices. Often, software engineers are employed by software publishers or computer systems design firms.',
       city: 'London, UK',
       venue: "Tower of London, St Katharine's & Wapping, London",
-      hostedBy: 'Bob',
-      hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
+      hostedBy: 'Firas',
+      hostPhotoURL: '/assets/firas.jpg',
       attendees: [
          {
             id: 'a',
-            name: 'Bob',
-            photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
+            name: 'David',
+            photoURL: '/assets/davidcunha.xyz.jpg'
          },
          {
             id: 'b',
-            name: 'Tom',
-            photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
+            name: 'Jeffnhorner',
+            photoURL: '/assets/jeffnhorner.jpg'
          }
       ]
    },
    {
       id: '2',
       title: 'Trip to Punch and Judy Pub',
-      date: '2018-03-28T14:00:00+00:00',
+      date: '2019-04-24T03:47:00+01:00',
       category: 'drinks',
       description:
-         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
+         'A programmer, developer, coder, or software engineer is a person who creates computer software. The term computer programmer can refer to a specialist in one area of computers, or to a generalist who writes code for many kinds of software.',
       city: 'London, UK',
       venue: 'Punch & Judy, Henrietta Street, London, UK',
-      hostedBy: 'Tom',
-      hostPhotoURL: 'https://randomuser.me/api/portraits/men/22.jpg',
+      hostedBy: 'Vegangirlthatcodes',
+      hostPhotoURL: '/assets/vegangirlthatcodes.jpg',
       attendees: [
          {
             id: 'b',
-            name: 'Tom',
-            photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
+            name: 'Fidalgo',
+            photoURL: '/assets/fidalgo.dev.jpg'
          },
          {
             id: 'a',
-            name: 'Bob',
-            photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
+            name: 'Luca',
+            photoURL: '/assets/lucabockmann.jpg'
          }
       ]
    }
