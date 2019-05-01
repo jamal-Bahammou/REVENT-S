@@ -11,6 +11,10 @@ const initialState = [
          'A software engineer develops various applications that enable users to accomplish tasks on their personal computers and electronic devices. Often, software engineers are employed by software publishers or computer systems design firms.',
       city: 'London, UK',
       venue: "Tower of London, St Katharine's & Wapping, London",
+      venueLatLng: {
+         lat: 40.7484405,
+         lng: -73.98566440000002
+      },
       hostedBy: 'Firas',
       hostPhotoURL: '/assets/firas.jpg',
       attendees: [
@@ -35,6 +39,10 @@ const initialState = [
          'A programmer, developer, coder, or software engineer is a person who creates computer software. The term computer programmer can refer to a specialist in one area of computers, or to a generalist who writes code for many kinds of software.',
       city: 'London, UK',
       venue: 'Punch & Judy, Henrietta Street, London, UK',
+      venueLatLng: {
+         lat: 51.5118074,
+         lng: -0.12300089999996544
+      },
       hostedBy: 'Vegangirlthatcodes',
       hostPhotoURL: '/assets/vegangirlthatcodes.jpg',
       attendees: [
