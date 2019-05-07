@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import Script from 'react-load-script';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import GoogleMapReact from 'google-map-react';
-import { Button, Icon } from 'semantic-ui-react';
+// import GoogleMapReact from 'google-map-react';
+// import { Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { incrementCounter, decrementCounter } from './testActions';
+import { openModal } from '../modals/modalActions'
 
 const mapState = (state) => ({
    data: state.test.data
@@ -12,10 +14,11 @@ const mapState = (state) => ({
 
 const actions = {
    incrementCounter,
-   decrementCounter
+   decrementCounter,
+   openModal
 }
 
-const Marker = () => <Icon name='marker' size='big' color='red' />
+// const Marker = () => <Icon name='marker' size='big' color='red' />
 
 class TestComponent extends Component {
 
@@ -54,7 +57,7 @@ class TestComponent extends Component {
          onChange: this.onChange
       };
 
-      const { incrementCounter, decrementCounter, data } = this.props;
+      const { incrementCounter, decrementCounter, data, openModal } = this.props;
       return (
          <div>
             {/* <Script
@@ -65,6 +68,7 @@ class TestComponent extends Component {
             <h3>The answer is : {data}</h3>
             <Button onClick={incrementCounter} color='green' content='INCREMENT' />
             <Button onClick={decrementCounter} color='red' content='DECREMENT' />
+            <Button onClick={() => openModal('TestModal', { data: 43 })} color='teal' content='OPEN MODAL' />
             <br />
             <br />
 
@@ -76,9 +80,8 @@ class TestComponent extends Component {
                <button type="submit">Submit</button>
             </form>
 
-
             {/* Google Map affichage: */}
-            <div style={{ height: '300px', width: '100%' }}>
+            {/* <div style={{ height: '300px', width: '100%' }}>
                <GoogleMapReact
                   bootstrapURLKeys={{ key: 'AIzaSyDkOJIIkRJyV0WBneMwzIXAZO4yNsYGLj4' }}
                   defaultCenter={this.props.center}
@@ -90,7 +93,7 @@ class TestComponent extends Component {
                      text={'Kreyser Avrora'}
                   />
                </GoogleMapReact>
-            </div>
+            </div> */}
 
          </div>
       )
