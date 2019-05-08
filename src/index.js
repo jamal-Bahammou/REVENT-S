@@ -8,8 +8,11 @@ import App from './app/layout/App';
 import registerServiceWorker from './registerServiceWorker';
 import { configueStore } from './app/store/confiugreStore';
 import ScrollToTop from './app/common/util/ScrollToTop'
+import { loadEvents } from './features/event/eventActions';
 
 const store = configueStore();
+store.dispatch(loadEvents());
+
 const rootEl = document.getElementById('root');
 
 let render = () => {
