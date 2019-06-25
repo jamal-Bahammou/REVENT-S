@@ -13,13 +13,7 @@ const SettingsNav = () => {
          </Menu>
          <Grid.Row />
          <Menu vertical>
-            <Header
-               icon="settings"
-               attached
-               inverted
-               color="grey"
-               content="Account"
-            />
+            <Header icon="settings" attached inverted color="grey" content="Account" />
             <Menu.Item as={NavLink} to='/settings/account'>My Account</Menu.Item>
          </Menu>
       </Grid.Column>

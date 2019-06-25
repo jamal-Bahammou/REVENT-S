@@ -40,7 +40,7 @@ class NavBar extends Component {
                <Container>
                   <Menu.Item as={Link} to='/' header>
                      <img src="/assets/logo.png" alt="logo" />
-                     Re-vents
+                     RE-VENTS
                </Menu.Item>
                   <Menu.Item as={NavLink} to='/events' name="EVENTS" />
                   <Menu.Item as={NavLink} to='/test' name="TESTE" />
@@ -48,10 +48,17 @@ class NavBar extends Component {
                      <Menu.Item as={NavLink} to='/people' name="PEOPLE" />}
                   {authenticated &&
                      <Menu.Item>
-                        <Button as={Link} to='/createEvent' floated="right" positive inverted content="Create Event" />
+                        <Button
+                           as={Link}
+                           to='/createEvent'
+                           floated="right"
+                           positive
+                           inverted
+                           content="CREATE EVENT"
+                        />
                      </Menu.Item>}
                   {authenticated ? (
-                     <SignedInMenu profile={profile} signOut={this.handleSignOut} />
+                     <SignedInMenu auth={auth} profile={profile} signOut={this.handleSignOut} />
                   ) : (
                         <SignedOutMenu signIn={this.handleSignIn} register={this.handleRegister} />
                      )}
