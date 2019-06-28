@@ -16,7 +16,11 @@ const eventImageTextStyle = {
    color: 'white'
 };
 
-const EventDatailedHeader = ({ event }) => {
+const EventDatailedHeader = ({ event, isHost, isGoing, goingToEvent, cancelGoingToEvent }) => {
+   let eventDate;
+   if (event.date) {
+      eventDate = event.date.toDate();
+   }
    return (
       <div>
          <Segment.Group>
@@ -32,7 +36,7 @@ const EventDatailedHeader = ({ event }) => {
                               content={event.title}
                               style={{ color: 'white' }}
                            />
-                           <p>{format(event.date, 'dddd Do MMMM')}</p>
+                           <p>{format(eventDate, 'dddd Do MMMM')}</p>
                            <p>
                               Hosted by <strong>{event.hostedBy}</strong>
                            </p>
@@ -43,12 +47,28 @@ const EventDatailedHeader = ({ event }) => {
             </Segment>
 
             <Segment attached="bottom">
-               <Button>Cancel My Place</Button>
-               <Button color="teal">JOIN THIS EVENT</Button>
-
-               <Button as={Link} to={`/manage/${event.id}`} color="orange" floated="right">
-                  Manage Event
-                 </Button>
+               {!isHost &&
+                  <div>
+                     {isGoing ?
+                        <Button
+                           onClick={() => cancelGoingToEvent(event)}
+                           content='CANCEL MY PLACE'
+                        /> :
+                        <Button
+                           onClick={() => goingToEvent(event)}
+                           color="teal"
+                           content='JOIN THIS EVENT'
+                        />
+                     }
+                  </div>
+               }
+               {isHost &&
+                  (<Button
+                     as={Link}
+                     to={`/manage/${event.id}`}
+                     color="orange"
+                     content='MANAGE EVENT'
+                  />)}
             </Segment>
          </Segment.Group>
       </div>
