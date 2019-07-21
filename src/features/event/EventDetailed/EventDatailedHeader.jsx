@@ -16,7 +16,7 @@ const eventImageTextStyle = {
    color: 'white'
 };
 
-const EventDatailedHeader = ({ event, isHost, isGoing, goingToEvent, cancelGoingToEvent }) => {
+const EventDatailedHeader = ({ event, loading, isHost, isGoing, goingToEvent, cancelGoingToEvent }) => {
    let eventDate;
    if (event.date) {
       eventDate = event.date.toDate();
@@ -55,6 +55,7 @@ const EventDatailedHeader = ({ event, isHost, isGoing, goingToEvent, cancelGoing
                            content='CANCEL MY PLACE'
                         /> :
                         <Button
+                           loading={loading}
                            onClick={() => goingToEvent(event)}
                            color="teal"
                            content='JOIN THIS EVENT'
