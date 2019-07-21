@@ -89,18 +89,52 @@ export const deletePhoto = (photo) =>
    }
 
 // Function set Main photo:
-export const setMainPhoto = (photo) =>
-   async (dispatch, getState, { getFirebase }) => {
-      const firebase = getFirebase();
-      try {
-         return await firebase.updateProfile({
-            photoURL: photo.url
-         });
-      } catch (error) {
-         console.log(error);
-         throw new Error('Problem setting main photo')
+export const setMainPhoto = (photo) => async (dispatch, getState) => {
+   dispatch(asyncActionStart());
+   const firestore = firebase.firestore();
+   const user = firebase.auth().currentUser;
+   const today = new Date(Date.now());
+   let userDocRef = firestore.collection('users').doc(user.uid);
+   let eventAttendeeRef = firestore.collection('event_attendee');
+   try {
+      let batch = firestore.batch();
+
+      await batch.update(userDocRef, {
+         photoURL: photo.url
+      });
+
+      let eventQuery = await eventAttendeeRef
+         .where('userUid', '==', user.uid)
+         .where('eventDate', '>', today);
+
+
+      let eventQuerySnap = await eventQuery.get();
+
+      for (let i = 0; i < eventQuerySnap.docs.length; i++) {
+         let eventDocRef = await firestore.collection('events').doc(eventQuerySnap.docs[i].data().eventId)
+         let event = await eventDocRef.get();
+         if (event.data().hostUid === user.uid) {
+            batch.update(eventDocRef, {
+               hostPhotoURL: photo.url,
+               [`attendees.${user.uid}.photoURL`]: photo.url
+            })
+         } else {
+            batch.update(eventDocRef, {
+               [`attendees.${user.uid}.photoURL`]: photo.url
+            })
+         }
       }
+
+      console.log(batch);
+      await batch.commit();
+      dispatch(asyncActionFinish());
+
+   } catch (error) {
+      console.log(error);
+      dispatch(asyncActionError());
+      throw new Error('Problem setting main photo')
    }
+}
 
 // Function to going to event:
 export const goingToEvent = (event) =>
@@ -199,3 +233,44 @@ export const getUserEvents = (userUid, activeTab) => async (dispatch, getState) 
       dispatch(asyncActionError());
    }
 };
+
+export const followUser = (userToFollow, isFollowing, isCurrentUser) => async (dispatch, getState, { getFirestore }) => {
+   const firestore = getFirestore();
+   const user = firestore.auth().currentUser;
+   const following = {
+      photoURL: userToFollow.photoURL || '/assets/user.png',
+      city: userToFollow.city || 'UnknownCity',
+      displayName: userToFollow.displayName
+   };
+   try {
+      await firestore.set(
+         {
+            collection: 'users',
+            doc: user.uid,
+            subcollections: [{ collection: 'following', doc: userToFollow.id }]
+         },
+         following //What we gonna add
+      )
+      console.log('FOLLOW SUCCESS');
+      console.log(isFollowing);
+   } catch (error) {
+      console.log(error);
+   }
+};
+
+export const unfollowUser = (userToUnfollow, isFollowing) =>
+   async (dispatch, getState, { getFirestore }) => {
+      const firestore = getFirestore();
+      const user = firestore.auth().currentUser;
+      try {
+         await firestore.delete({
+            collection: 'users',
+            doc: user.uid,
+            subcollections: [{ collection: 'following', doc: userToUnfollow.id }]
+         })
+         console.log('UNFOLLOW SUCCESS');
+         console.log(isFollowing);
+      } catch (error) {
+         console.log(error);
+      }
+   }

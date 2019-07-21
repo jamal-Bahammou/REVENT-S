@@ -1,6 +1,6 @@
-import React, { Component } from 'react'; // imrc
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firestoreConnect, isEmpty } from 'react-redux-firebase'; // for the photos
+import { firestoreConnect, isEmpty } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Grid } from 'semantic-ui-react';
 import UserDetailedHeader from './UserDetailedHeader';
@@ -8,9 +8,9 @@ import UserDetailedDescription from './UserDetailedDescription';
 import UserDetailedSidebar from './UserDetailedSidebar';
 import UserDetailedPhotos from './UserDetailedPhotos';
 import UserDetailedEvents from './UserDetailedEvents';
-import { userDetailedQuery } from './userQueries';
+import { userDetailedQuery } from '../userQueries';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { getUserEvents } from '../userActions';
+import { getUserEvents, followUser, unfollowUser } from '../userActions';
 
 // query function:
 // Listen to the photos from firestore:
@@ -35,12 +35,15 @@ const mapState = (state, ownProps) => {
       eventsLoading: state.async.loading,
       auth: state.firebase.auth,
       photos: state.firestore.ordered.photos,
-      requesting: state.firestore.status.requesting
+      requesting: state.firestore.status.requesting,
+      following: state.firestore.ordered.following
    }
 }
 
 const actions = {
-   getUserEvents
+   getUserEvents,
+   followUser,
+   unfollowUser
 }
 
 // Class of root page UserDetailedPage:
@@ -55,9 +58,10 @@ class UserDetailedPage extends Component {
    }
 
    render() {
-      const { profile, photos, auth, match, requesting, events, eventsLoading } = this.props;
+      const { profile, photos, auth, match, requesting, events, eventsLoading, followUser, following, unfollowUser } = this.props;
       const isCurrentUser = auth.uid === match.params.id;
       const loading = Object.values(requesting).some(a => a === true);
+      const isFollowing = !isEmpty(following);
 
       // Loading animation:
       if (loading) return <LoadingComponent />
@@ -72,7 +76,13 @@ class UserDetailedPage extends Component {
             <UserDetailedDescription profile={profile} />
 
             {/* UserDetailedSidebar: */}
-            <UserDetailedSidebar isCurrentUser={isCurrentUser} />
+            <UserDetailedSidebar
+               isFollowing={isFollowing}
+               isCurrentUser={isCurrentUser}
+               profile={profile}
+               followUser={followUser}
+               unfollowUser={unfollowUser}
+            />
 
             {/* UserDetailedPhotos: */}
             {photos && photos.length > 0 &&
@@ -88,5 +98,5 @@ class UserDetailedPage extends Component {
 
 export default compose(
    connect(mapState, actions),
-   firestoreConnect((auth, userUid) => userDetailedQuery(auth, userUid)),
+   firestoreConnect((auth, userUid, match) => userDetailedQuery(auth, userUid, match)),
 )(UserDetailedPage);
