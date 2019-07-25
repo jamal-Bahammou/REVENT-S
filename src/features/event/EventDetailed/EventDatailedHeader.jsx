@@ -16,7 +16,7 @@ const eventImageTextStyle = {
    color: 'white'
 };
 
-const EventDatailedHeader = ({ event, loading, isHost, isGoing, goingToEvent, cancelGoingToEvent }) => {
+const EventDatailedHeader = ({ event, loading, isHost, isGoing, goingToEvent, cancelGoingToEvent, authenticated, openModal }) => {
    let eventDate;
    if (event.date) {
       eventDate = event.date.toDate();
@@ -49,18 +49,26 @@ const EventDatailedHeader = ({ event, loading, isHost, isGoing, goingToEvent, ca
             <Segment attached="bottom">
                {!isHost &&
                   <div>
-                     {isGoing ?
+                     {isGoing &&
                         <Button
                            onClick={() => cancelGoingToEvent(event)}
                            content='CANCEL MY PLACE'
-                        /> :
+                        />}
+                     {!isGoing &&
+                        authenticated &&
                         <Button
                            loading={loading}
                            onClick={() => goingToEvent(event)}
                            color="teal"
-                           content='JOIN THIS EVENT'
-                        />
-                     }
+                           content='JOIN THIS EVENT (SIGN IN)'
+                        />}
+                     {!authenticated &&
+                        <Button
+                           loading={loading}
+                           onClick={() => openModal('UnauthModal')}
+                           color="teal"
+                           content='JOIN THIS EVENT (SIGN OUT)'
+                        />}
                   </div>
                }
                {isHost &&
