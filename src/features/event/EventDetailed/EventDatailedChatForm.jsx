@@ -22,7 +22,7 @@ class EventDatailedChatForm extends Component {
                rows={2}
             />
             <Button
-               content="Add Reply"
+               content="ADD REPLAY"
                labelPosition="left"
                icon="edit"
                primary

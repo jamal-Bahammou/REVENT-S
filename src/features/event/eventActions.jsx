@@ -76,6 +76,7 @@ export const cancelToggle = (cancelled, eventId) => async (dispatch, getState, {
                cancelled: cancelled
             })
       });
+      console.log(message);
    } catch (error) {
       toastr.error('Oops!', 'Something went wrong');
       console.log(error);
